@@ -9,7 +9,6 @@ const Colors = {
   gray100: "#F4F4F4",
   white: "#FFFFFF",
   white50: "rgba(255, 255, 255, 0.5)", // White 50%
-
   bgIcon: "rgba(206, 206, 206, 0.5)",
   bgBox: "#F2F3F6", // Bg - box
   primary10: "#FFF1EB",
