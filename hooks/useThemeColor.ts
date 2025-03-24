@@ -2,7 +2,7 @@
  * 단일 컬러 테마를 적용한 코드
  */
 
-import Colors from "@/constants/Colors"; // 컬러셋 가져오기
+import Colors from "@constants/colors"; // 컬러셋 가져오기
 
 export function useThemeColor(
   props: { color?: string },
