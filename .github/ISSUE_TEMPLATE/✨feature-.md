@@ -11,8 +11,8 @@ assignees: ''
 - 
 
 ## 작업 내용
-- [] to-do
-- [] to-do
+- [ ] to-do
+- [ ] to-do
 
 ## 참고사항
 -
