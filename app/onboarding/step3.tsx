@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Colors from "@/constants/colors";
+import Colors from "@constants/colors";
 import Typography from "@/constants/typography";
 
 const Step3 = () => {
