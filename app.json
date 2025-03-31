@@ -33,10 +33,26 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      ["expo-asset"]
+      [
+        "expo-asset"
+      ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "317fbffd-a44a-43b0-9866-7c3cb38974c4"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/317fbffd-a44a-43b0-9866-7c3cb38974c4"
     }
   }
 }

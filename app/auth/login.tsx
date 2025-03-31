@@ -9,15 +9,17 @@ WebBrowser.maybeCompleteAuthSession();
 
 export default function LoginScreen() {
     const router = useRouter();
-    const { promptAsync, response, isReady } = useKakaoLogin();
+    const { promptAsync, response, isReady, redirectUri } = useKakaoLogin();
 
     useEffect(() => {
-        const redirectUri = makeRedirectUri();
-        console.log(redirectUri);
+        // @ts-ignore
+        console.log(makeRedirectUri({ useProxy: true }));
 
         if (response?.type === "success") {
             const { code } = response.params;
-            console.log("인가 코드:", code);
+            console.log("✅ 인가 코드:", code);
+
+            // TODO: 백엔드에 code 전송해서 access_token → 사용자 정보 가져오기
             router.push("/onboarding/start");
         }
     }, [response]);
