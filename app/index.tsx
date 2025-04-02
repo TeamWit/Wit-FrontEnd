@@ -1,5 +1,6 @@
 import { Redirect } from 'expo-router';
 
 export default function IndexPage() {
-    return <Redirect href="/auth/login" />;
+    // @ts-ignore
+    return <Redirect href="/(main)/ranking" />;
 }

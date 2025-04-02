@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "expo-router";
 import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import * as WebBrowser from "expo-web-browser";
-import { useKakaoLogin } from "@/app/services/auth/kakao";
+import useKakaoLogin from "@/app/services/auth/kakao";
 import {makeRedirectUri} from "expo-auth-session";
 
 WebBrowser.maybeCompleteAuthSession();

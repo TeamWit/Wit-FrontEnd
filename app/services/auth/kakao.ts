@@ -11,7 +11,7 @@ const discovery = {
 
 const clientId = "921724e7a382d7cd627ef3c63c531a40"; // 너의 Kakao REST API 키
 
-export function useKakaoLogin() {
+export default function useKakaoLogin() {
 
     const redirectUri = makeRedirectUri({
         useProxy: true,
