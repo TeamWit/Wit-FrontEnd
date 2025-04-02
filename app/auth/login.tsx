@@ -1,28 +1,34 @@
 import React, { useEffect } from "react";
 import { useRouter } from "expo-router";
-import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
-import * as WebBrowser from "expo-web-browser";
+import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions, Linking, Alert } from "react-native";
 import useKakaoLogin from "@/app/services/auth/kakao";
-import {makeRedirectUri} from "expo-auth-session";
-
-WebBrowser.maybeCompleteAuthSession();
 
 export default function LoginScreen() {
     const router = useRouter();
-    const { promptAsync, response, isReady, redirectUri } = useKakaoLogin();
+    const { login } = useKakaoLogin();
 
     useEffect(() => {
-        // @ts-ignore
-        console.log(makeRedirectUri({ useProxy: true }));
+        const handleDeepLink = (event: { url: string }) => {
+            const url = event.url;
+            console.log("📡 딥링크 감지됨:", url);
 
-        if (response?.type === "success") {
-            const { code } = response.params;
-            console.log("✅ 인가 코드:", code);
+            const match = url.match(/token=([^&]+)/);
+            const token = match?.[1];
 
-            // TODO: 백엔드에 code 전송해서 access_token → 사용자 정보 가져오기
-            router.push("/onboarding/start");
-        }
-    }, [response]);
+            if (token) {
+                console.log("✅ JWT 토큰:", token);
+                router.push("/onboarding/start");
+            }
+        };
+
+        // 리스너 등록
+        const subscription = Linking.addEventListener("url", handleDeepLink);
+
+        // 리스너 해제
+        return () => {
+            subscription.remove();
+        };
+    }, []);
 
     return (
         <View style={styles.container}>
@@ -43,9 +49,7 @@ export default function LoginScreen() {
                 <View style={styles.buttonGroup}>
                     <TouchableOpacity
                         style={[styles.button, styles.kakao]}
-                        onPress={() => {
-                            if (isReady) promptAsync();
-                        }}
+                        onPress={login}
                     >
                         <View style={styles.buttonContent}>
                             <Image
