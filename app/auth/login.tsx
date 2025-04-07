@@ -1,30 +1,62 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
-import { View, Text, Image, TouchableOpacity, StyleSheet, Dimensions, Linking, Alert } from "react-native";
+import {
+    View,
+    Text,
+    Image,
+    TouchableOpacity,
+    StyleSheet,
+    Dimensions,
+    Linking,
+    Alert,
+    Animated,
+    Easing,
+} from "react-native";
 import useKakaoLogin from "@/app/services/auth/kakao";
+import { useAuthStore } from "@/store/slices/auth";
 
-export default function LoginScreen() {
+const LoginScreen: React.FC = () => {
     const router = useRouter();
     const { login } = useKakaoLogin();
+    const setToken = useAuthStore((state) => state.setToken);
+    const [fadeAnim] = useState<Animated.Value>(new Animated.Value(0));
+
+    const handleDeepLink = (url: string) => {
+        console.log("📡 딥링크 감지됨:", url);
+
+        const match = url.match(/token=([^&]+)/);
+        const token = match?.[1];
+
+        if (token) {
+            console.log("✅ JWT 토큰:", token);
+            setToken(token);
+            playFadeAnimation();
+            setTimeout(() => {
+                router.push("/onboarding/start");
+            }, 800);
+        } else {
+            Alert.alert("로그인 실패", "토큰이 전달되지 않았습니다.");
+        }
+    };
+
+    const playFadeAnimation = () => {
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 500,
+            easing: Easing.out(Easing.ease),
+            useNativeDriver: true,
+        }).start();
+    };
 
     useEffect(() => {
-        const handleDeepLink = (event: { url: string }) => {
-            const url = event.url;
-            console.log("📡 딥링크 감지됨:", url);
+        const subscription = Linking.addEventListener("url", ({ url }) => {
+            handleDeepLink(url);
+        });
 
-            const match = url.match(/token=([^&]+)/);
-            const token = match?.[1];
+        Linking.getInitialURL().then((url) => {
+            if (url) handleDeepLink(url);
+        });
 
-            if (token) {
-                console.log("✅ JWT 토큰:", token);
-                router.push("/onboarding/start");
-            }
-        };
-
-        // 리스너 등록
-        const subscription = Linking.addEventListener("url", handleDeepLink);
-
-        // 리스너 해제
         return () => {
             subscription.remove();
         };
@@ -62,9 +94,26 @@ export default function LoginScreen() {
                     </TouchableOpacity>
                 </View>
             </View>
+
+            <Animated.View
+                style={[
+                    StyleSheet.absoluteFillObject,
+                    {
+                        backgroundColor: "#FFFBEA",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        opacity: fadeAnim,
+                    },
+                ]}
+                pointerEvents="none"
+            >
+                <Text style={{ fontSize: 20, fontWeight: "bold", color: "#FF9800" }}>
+                    로그인 성공! ✨
+                </Text>
+            </Animated.View>
         </View>
     );
-}
+};
 
 const { height } = Dimensions.get("window");
 
@@ -136,3 +185,5 @@ const styles = StyleSheet.create({
         color: "#000",
     },
 });
+
+export default LoginScreen;
