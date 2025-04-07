@@ -1,5 +1,8 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+
+import BackIcon from "@/assets/icons/back-icon.svg";
+import SearchIcon from "@/assets/icons/search-icon.svg";
+import FilterIcon from "@/assets/icons/filter-icon.svg";
 
 export default function RankingHeader() {
     const onPressBack = () => {
@@ -17,17 +20,17 @@ export default function RankingHeader() {
     return (
         <View style={styles.headerContainer}>
             <TouchableOpacity onPress={onPressBack}>
-                <Ionicons name="chevron-back" size={24} color="#333" />
+                <BackIcon width={24} height={24} />
             </TouchableOpacity>
 
             <Text style={styles.headerTitle}>위트 랭킹</Text>
 
             <View style={styles.rightIcons}>
                 <TouchableOpacity onPress={onPressSearch} style={styles.iconButton}>
-                    <Ionicons name="search" size={20} color="#333" />
+                    <SearchIcon width={24} height={24} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={onPressFilter} style={styles.iconButton}>
-                    <Ionicons name="filter" size={20} color="#333" />
+                    <FilterIcon width={24} height={24} />
                 </TouchableOpacity>
             </View>
         </View>
@@ -57,6 +60,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     iconButton: {
-        marginLeft: 12,
+        marginHorizontal: 12,
     },
 });

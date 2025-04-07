@@ -10,7 +10,7 @@ export default function RankingMeta() {
         <View style={styles.container}>
             <Text style={styles.updateText}>10분 전 업데이트</Text>
             <TouchableOpacity onPress={handleFilterPress}>
-                <Text style={styles.filterText}>방금전 ▼</Text>
+                <Text style={styles.filterText}>방금전 </Text>
             </TouchableOpacity>
         </View>
     );
