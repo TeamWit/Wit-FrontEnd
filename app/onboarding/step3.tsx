@@ -124,7 +124,7 @@ const Step3 = () => {
                     selectedCategories.includes(category)
                       ? "caption1"
                       : "caption2"
-                  ], // ✅ 선택 여부에 따라 Caption2 또는 Caption1 적용
+                  ], //  선택 여부에 따라 Caption2 또는 Caption1 적용
                   color: selectedCategories.includes(category)
                     ? Colors.primary
                     : Colors.gray400,

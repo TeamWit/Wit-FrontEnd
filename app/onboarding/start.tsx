@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "@/constants/colors";
@@ -45,9 +45,8 @@ const Start = () => {
           위트에서 찾아보세요
         </Text>
 
-        {/*  시작하기 버튼 */}
         <TouchableOpacity
-          onPress={() => router.push("/onboarding/step1")}
+          onPress={() => router.push("/(tabs)")}
           style={{
             height: 50,
             justifyContent: "center",
