@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import {
     View,
@@ -7,37 +7,16 @@ import {
     TouchableOpacity,
     StyleSheet,
     Dimensions,
-    Linking,
-    Alert,
     Animated,
     Easing,
 } from "react-native";
 import useKakaoLogin from "@/app/services/auth/kakao";
-import { useAuthStore } from "@/store/slices/auth";
+import useKakaoDeepLink from "@/app/services/auth/useKakaoDeepLink";
 
 const LoginScreen: React.FC = () => {
     const router = useRouter();
     const { login } = useKakaoLogin();
-    const setToken = useAuthStore((state) => state.setToken);
     const [fadeAnim] = useState<Animated.Value>(new Animated.Value(0));
-
-    const handleDeepLink = (url: string) => {
-        console.log("📡 딥링크 감지됨:", url);
-
-        const match = url.match(/token=([^&]+)/);
-        const token = match?.[1];
-
-        if (token) {
-            console.log("✅ JWT 토큰:", token);
-            setToken(token);
-            playFadeAnimation();
-            setTimeout(() => {
-                router.push("/onboarding/start");
-            }, 800);
-        } else {
-            Alert.alert("로그인 실패", "토큰이 전달되지 않았습니다.");
-        }
-    };
 
     const playFadeAnimation = () => {
         Animated.timing(fadeAnim, {
@@ -48,19 +27,12 @@ const LoginScreen: React.FC = () => {
         }).start();
     };
 
-    useEffect(() => {
-        const subscription = Linking.addEventListener("url", ({ url }) => {
-            handleDeepLink(url);
-        });
-
-        Linking.getInitialURL().then((url) => {
-            if (url) handleDeepLink(url);
-        });
-
-        return () => {
-            subscription.remove();
-        };
-    }, []);
+    useKakaoDeepLink(() => {
+        playFadeAnimation();
+        setTimeout(() => {
+            router.push("/onboarding/start");
+        }, 800);
+    });
 
     return (
         <View style={styles.container}>
