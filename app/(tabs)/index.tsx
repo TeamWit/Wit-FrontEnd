@@ -32,12 +32,12 @@ const items = [
   },
 ];
 
-const HomeScreen = () => {
+export default function HomeScreen() {
   const router = useRouter();
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
-      {/* 🔹 네비게이션 바 */}
+      {/* 🔹 상단 네비게이션 */}
       <View
         style={{
           flexDirection: "row",
@@ -47,10 +47,8 @@ const HomeScreen = () => {
           height: 50,
         }}
       >
-        {/* 왼쪽: 국가 선택 */}
         <Text style={{ ...Typography.body1, fontWeight: "bold" }}>일본</Text>
 
-        {/* 오른쪽: 검색 & 알림 아이콘 */}
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity onPress={() => console.log("검색")}>
             <Ionicons
@@ -94,15 +92,15 @@ const HomeScreen = () => {
         </TouchableOpacity>
       </View>
 
-      {/* 🔹 상품 목록 (FlatList) */}
+      {/* 🔹 상품 목록 */}
       <FlatList
         data={items}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => {
-              console.log("상품 ID:", item.id); // 디버깅 로그 추가
-              router.push(`./tabs/product/${item.id}`);
+              console.log("상품 ID:", item.id);
+              router.push(`/product/${item.id}`);
             }}
             style={{
               flexDirection: "row",
@@ -148,36 +146,6 @@ const HomeScreen = () => {
           </TouchableOpacity>
         )}
       />
-
-      {/* 🔹 하단 네비게이션 바 */}
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-around",
-          alignItems: "center",
-          height: 60,
-          borderTopWidth: 1,
-          borderTopColor: Colors.gray300,
-        }}
-      >
-        <TouchableOpacity onPress={() => console.log("카테고리")}>
-          <Ionicons name="grid-outline" size={24} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log("커뮤니티")}>
-          <Ionicons name="chatbubble-outline" size={24} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log("홈")}>
-          <Ionicons name="home-outline" size={24} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log("스크랩")}>
-          <Ionicons name="bookmark-outline" size={24} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log("마이페이지")}>
-          <Ionicons name="person-outline" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
   );
-};
-
-export default HomeScreen;
+}
